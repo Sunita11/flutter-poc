@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'features/app_bloc.dart';
 
 /*
 class LocaleList extends StatefulWidget {
@@ -85,34 +87,41 @@ class _LocaleListState extends State<LocaleList> {
     final List<String> entries = <String>['English', '台灣', 'Tiếng Việt', 'Türkçe', 'ไทย','Русский', 'Português', 'polski', 'Melayu', '한국어'];
     final List<String>  mapEntries = <String>['en', 'ja', 'vi', 'tr', 'th', 'ru', 'pt-br', 'po', 'ma', 'ko'];
     final List<int> colorCodes = <int>[600, 500, 100, 600, 500, 100, 600, 500, 100, 600, 500, 100, 600, 500, 100];
-    print(_counter);
+//    print(locale);
     Color activeColor = const Color(0xFF00CC76);
     Color activeBorderColor= const Color(0xFF00FF7F);
-    return      ListView.builder(
-        padding: const EdgeInsets.all(8),
-        itemCount: entries.length,
-        itemBuilder: (BuildContext context, int index) {
-//            print(_counter);
-          return GestureDetector(
-            child: Container(
-              height: 50,
-              child: Center(child: Text('${entries[index]}', style: TextStyle(color:  _counter != null && _counter == index ? activeColor : Color(0xFF72849D)))),
-              decoration: new BoxDecoration(
-                  border: new BorderDirectional(
-                      bottom: new BorderSide(
-                          color: _counter != null && _counter == index ? activeBorderColor :  Color(0xFF1a1f26),
-                          width: 1.0,
-                          style: BorderStyle.solid
-                      )
-                  )
-              ),
-            ),
-            onTap: () {
-              _onSelected(index);
-            },
-          );
 
-        }
+    final AppBloc _appBloc = BlocProvider.of<AppBloc>(context);
+
+    return BlocBuilder<AppBloc, AppState>(
+            builder: (context, state) {
+              return ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: entries.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      child: Container(
+                        height: 50,
+                        child: Center(child: Text('${entries[index]}', style: TextStyle(color:  _counter != null && _counter == index ? activeColor : Color(0xFF72849D)))),
+                        decoration: new BoxDecoration(
+                            border: new BorderDirectional(
+                                bottom: new BorderSide(
+                                    color: _counter != null && _counter == index ? activeBorderColor :  Color(0xFF1a1f26),
+                                    width: 1.0,
+                                    style: BorderStyle.solid
+                                )
+                            )
+                        ),
+                      ),
+                      onTap: () {
+                        _onSelected(index);
+                        _appBloc.add(LocaleChanged(locale: mapEntries[_counter]));
+                      },
+                    );
+
+                  }
+              );
+            }
     );
   }
 }

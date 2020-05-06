@@ -3,6 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/foundation.dart';
 import 'app_bar_header.dart';
 import 'locale_list.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'features/app_bloc.dart';
 
 
 class WrapperPage extends StatefulWidget {
@@ -33,19 +35,25 @@ class _WrapperFeed extends State<WrapperPage> with SingleTickerProviderStateMixi
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: (){
-            // add on pressed code
-          },
-        label: Text('Next'),
-          backgroundColor: Colors.green,
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        appBar: AppBar(
-          title: AppBarHeader(),
-        ),
-        body: LocaleList()
+    return BlocBuilder<AppBloc, AppState>(
+      builder: (context, state) {
+        final localeStr = (state as AppState)
+            .locale;
+        return Scaffold(
+            floatingActionButton: FloatingActionButton.extended(
+              onPressed: (){
+                // add on pressed code
+              },
+              label: Text('Next $localeStr'),
+              backgroundColor: Colors.green,
+            ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+            appBar: AppBar(
+              title: AppBarHeader(),
+            ),
+            body: LocaleList()
+        );
+      }
     );
   }
 }

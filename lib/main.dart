@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'feed-page.dart';
+import 'features/app_bloc.dart';
+
 
 void main() => runApp(BlogApp());
 
@@ -27,7 +30,10 @@ class BlogApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/':
-            return MaterialPageRoute(builder: (ctx) => HomePage());
+            return MaterialPageRoute(builder: (ctx) => BlocProvider<AppBloc>(
+              create: (ctx) => AppBloc(),
+              child: HomePage()
+            ));
             break;
           case 'home':
             return MaterialPageRoute(builder: (ctx) => HomePage());
@@ -50,10 +56,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isUserRecordChecked = true;
 
+  @override
   void initState() {
     super.initState();
+    _appBloc = BlocProvider.of<AppBloc>(context);
     // checkForMissingInfo();
   }
+
+  AppBloc _appBloc;
 
   checkForMissingInfo() async {
       /*await tryCreateUserRecord (
@@ -66,16 +76,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return isUserRecordChecked ?
-        HomePageInternal(title: 'HomePage POC')
-        : Scaffold(
-      body: Center(
-        child: Container(
-          child: CircularProgressIndicator(),
-          width: 40,
-          height: 40
-        )
-      )
+    return BlocBuilder<AppBloc, AppState>(
+      builder: (context, state) {
+        return isUserRecordChecked ?
+        HomePageInternal(title: 'HomePage')
+            : Scaffold(
+            body: Center(
+                child: Container(
+                    child: CircularProgressIndicator(),
+                    width: 40,
+                    height: 40
+                )
+            )
+        );
+      }
     );
   }
 }
@@ -93,6 +107,7 @@ class _HomePageInternalState extends State<HomePageInternal> {
 
   @override
   Widget build(BuildContext context) {
+
     return WillPopScope(
       child: Scaffold(
         body: WrapperPage(
