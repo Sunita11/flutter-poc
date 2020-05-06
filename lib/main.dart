@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return isUserRecordChecked ?
-        HomePageInternal(title: 'HomePage')
+        HomePageInternal(title: 'HomePage POC')
         : Scaffold(
       body: Center(
         child: Container(
