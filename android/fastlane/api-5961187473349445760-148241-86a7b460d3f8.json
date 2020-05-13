@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "api-5961187473349445760-148241",
+  "private_key_id": "86a7b460d3f8b4a1a18c019a219638d2d6932411",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDWofaI6idSK2HL\n//UizOJusx1aSF++nvNbVwDwpS/RAZWovSSpSRT7k+14/YcZyHcW5SPSkjKx0GNz\nArGGhtqfAbH42g4rWTYlMUlqLQaWmqXK7HV04p5n0kfPdx6Dd0lFPhP1wsC/zMrN\ny3z825EQ3EV7irDfI2nfd6jmmSKTy1XIWhwVAsH9Sua30zRn5Q2S2s+cVu2TdFUD\nDRXY6KvwyLRC79hPJm0lVZitINUnI3SLUG4OCSWR3VAk7JoLnBQZmN743OVogm4Z\nFUKQzZa069maIaNqqSAqoOEjNnPsu3sNp1wdx9fUIY8GiaVjx5+rIYb+yvwmjNln\nAmUoAJGHAgMBAAECggEAahJkGRkDcsfuzpdCCj9QPl41yOsQqk+6vC7cz5ELdxL9\n6AUF68Wq4YQjbdJ55KOeO0nl8MiA1kDDDVFM88uMmt2HG5GERCcUK8BWZGs5IM/v\n1MAUcj4XA/83rw/THCylINvDmIb1pDRtG9SPghVu9XKuwhXyQGyrg52K8t/GZ1xD\neKe+up13elmzRuvFHIpM6nojt3Lg0xkaQK+L7nax9+42NeP6vu7HRsVJ7i/QSlZz\ncvZt/xN9s5d0QbeNsCtDIOaNMNHazelHkzbDAMXSSfBd78a4a2ZoNaZc74IQsXJH\n09IkXYUZb6a15eW319FYc8o0QpS7iLzc3CaGo66+iQKBgQD5T52eBAiTH5xUaFKS\nPwnsscsSADEDiV9BLVxUL7lcu+uMnufDntnorwIyl2I7MbZ8CEGARlrjuljl7l78\ni0tWTCfy3Eg6j+OMR21GCj8Ff0HD5VurdCpKI0xQ48qOGTsssBAs0TOfI6j7Y0rH\nhznP9jrsXm37B6ioE5nFrQT+PwKBgQDcZCkOK4ButVSUPfybqPcg+9D0EW5zjdbc\nrJI+963HTa5fqOotws9Z8ix1OrGppJ/tAyLnFM70OjzLK6y9+igUp55s1n3Ft8JI\nzwR9WW4f5jIpZuG32Cc5DMyiEIDKXhEvXHboOorQ5Dm6M1zre97IO3hEZSFnLovQ\nGR4Gu7GquQKBgQDJlKQ+5cgBHWgLn6ZT9YCSz1cAoQMAdwx76K9kqonX/2H/e2St\n+Tz8NLU0Ls8QSavhMdO0Yi6PP1ct4sUOsZoilsUeSxpjr4AvJnmmThaS3UhRmpu6\nT9z5wPyt0uEucBw2j80kT6rLm8vAJ5KJLj+CdPdDsz594L1v2RlWigUlhQKBgEeU\nDDV68XKDWB3xZ+qSXPkMcBfk1W+YQJFZRwJGZN1XIGwXKz+Dht6apc/JKUyEmCBd\nJWfRvUla5MXDwI3PAld6/RwyKZUekm4dNkMT2Y1osR/7NxIDlPGVc5yrKXkQRhqQ\nuFnCMbWYehs8dVBR4dA8aFomUkv1tRj4H2VmblSZAoGAT+tGAbQg545dql9kP8a0\nuryNLhWmhsrRIahjSV3ewstacP6sETgXr9zbzgdaARnoXibPgtcmniKE6kGqAERq\ny7nG5Shn2zB2v6U7HLlJxKniQiXFAdBzAjAxlXoemFp28iBIJQMz6f+us42bNjbG\n7W6QKm05RPBEGPqxzhcjZ/Y=\n-----END PRIVATE KEY-----\n",
+  "client_email": "dejavu-app@api-5961187473349445760-148241.iam.gserviceaccount.com",
+  "client_id": "101411257581184834734",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dejavu-app%40api-5961187473349445760-148241.iam.gserviceaccount.com"
+}

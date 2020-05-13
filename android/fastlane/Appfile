@@ -1,0 +1,4 @@
+# Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/
+# setup to get one
+json_key_file("api-5961187473349445760-148241-86a7b460d3f8.json")
+package_name("tv.game.dejavu.android") # e.g. com.krausefx.app
