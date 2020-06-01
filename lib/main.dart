@@ -3,9 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'feed-page.dart';
 import 'features/app_bloc.dart';
+import 'rss_demo.dart';
 
 
-void main() => runApp(BlogApp());
+void main() => runApp(BlocProvider<AppBloc>(
+  create: (ctx) => AppBloc(),
+  child: BlogApp()
+));
+
 
 class BlogApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -26,18 +31,16 @@ class BlogApp extends StatelessWidget {
         ),
         primaryColorBrightness: Brightness.dark,
       ),
-      initialRoute: '/',
       onGenerateRoute: (settings) {
         switch (settings.name) {
+          /* case '/':
+            return MaterialPageRoute(builder: (ctx) => LocaleList());
+            break; */
           case '/':
-            return MaterialPageRoute(builder: (ctx) => BlocProvider<AppBloc>(
-              create: (ctx) => AppBloc(),
-              child: HomePage()
-            ));
+            return MaterialPageRoute(builder: (ctx) => RSSDemo());
             break;
-          case 'home':
+          case 'home': 
             return MaterialPageRoute(builder: (ctx) => HomePage());
-            break;
           default:
             throw Exception('route does not exists');
             break;
