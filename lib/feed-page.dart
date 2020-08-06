@@ -5,6 +5,7 @@ import 'app_bar_header.dart';
 import 'locale_list.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/app_bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class WrapperPage extends StatefulWidget {
@@ -39,19 +40,29 @@ class _WrapperFeed extends State<WrapperPage> with SingleTickerProviderStateMixi
       builder: (context, state) {
         final localeStr = (state as AppState)
             .locale;
-        return Scaffold(
-            floatingActionButton: FloatingActionButton.extended(
-              onPressed: (){
-                // add on pressed code
-              },
-              label: Text('Next $localeStr'),
-              backgroundColor: Colors.green,
-            ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-            appBar: AppBar(
-              title: AppBarHeader(),
-            ),
-            body: LocaleList()
+        return Container(
+          child: StreamBuilder(
+            stream: Firestore.instance.collection('locale').snapshots(),
+            builder: (context, snapshot){
+              if(!snapshot.hasData) return Text('Loading...');
+              final locale = snapshot.data.documents[0]['name'];
+              print('locale from firestore: $locale');
+              return Scaffold(
+                  floatingActionButton: FloatingActionButton.extended(
+                    onPressed: (){
+                      // add on pressed code
+                    },
+                    label: Text('Next $locale'),
+                    backgroundColor: Colors.green,
+                  ),
+                  floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+                  appBar: AppBar(
+                    title: AppBarHeader(),
+                  ),
+                  body: LocaleList()
+              );
+            },
+          ),
         );
       }
     );
