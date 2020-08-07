@@ -46,7 +46,6 @@ class _LocaleListState extends State<LocaleList> {
                   if(isFirstLoad) {
                     _counter = mapEntries.indexOf(locale);
                   }
-                  print('locale list: $locale');
                   return ListView.builder(
                     padding: const EdgeInsets.all(8),
                     itemCount: entries.length,
@@ -67,10 +66,6 @@ class _LocaleListState extends State<LocaleList> {
                         ),
                         onTap: () {
                           _onSelected(index);
-                          // document.reference.updateData({
-                          //   'name': mapEntries[_counter]
-                          // });
-
                           Firestore.instance.runTransaction( (transaction) async {
                             DocumentSnapshot freshSnap = await transaction.get(document.reference);
                             await transaction.update(freshSnap.reference, {
