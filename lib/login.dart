@@ -1,10 +1,105 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_twitter/flutter_twitter.dart';
+import 'twitter_login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:oauth1/oauth1.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+
 
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
+
+
+class _LoginState extends State<Login> {
+
+FirebaseAuth _auth = FirebaseAuth.instance;
+Authorization _oauth;
+final twitterPlatform = Platform(
+    'https://api.twitter.com/oauth/request_token', // temporary credentials request
+    'https://api.twitter.com/oauth/authorize', // resource owner authorization
+    'https://api.twitter.com/oauth/access_token', // token credentials request
+    SignatureMethods.hmacSha1, // signature method
+  );
+final ClientCredentials clientCredentials= ClientCredentials('O9AvyC4qDvCCdxn1LaypRVF8E', '4qAEinQ6L3Wba25sZVllSEtb8vx6i1zuwIHnD3vT4MyDBgd0CI');
+  final flutterWebviewPlugin = FlutterWebviewPlugin();
+  final oauthCallbackHandler = 'https://dummy-test-10de7.firebaseapp.com/__/auth/handler';
+
+
+ @override
+  void initState() {
+    // Initialize Twitter OAuth
+    _oauth = Authorization(clientCredentials, twitterPlatform);
+
+    flutterWebviewPlugin.onUrlChanged.listen((url) {
+      // Look for Step 2 callback so that we can move to Step 3.
+      if (url.startsWith(oauthCallbackHandler)) {
+        print('url: $url');
+        final queryParameters = Uri.parse(url).queryParameters;
+        final oauthToken = queryParameters['oauth_token'];
+        final oauthVerifier = queryParameters['oauth_verifier'];
+        if (null != oauthToken && null != oauthVerifier) {
+          _twitterLogInFinish(oauthToken, oauthVerifier);
+        }
+      }
+    });
+
+    
+  }
+
+  /*   @override
+  void dispose() {
+    flutterWebviewPlugin.dispose();
+    super.dispose();
+  } */
+
+    Future<void> _twitterLogInStart() async {
+      print('_twitterLogInStart $_oauth');
+    assert(null != _oauth);
+    // Step 1 - Request Token
+    final requestTokenResponse =
+        await _oauth.requestTemporaryCredentials(oauthCallbackHandler);
+    // Step 2 - Redirect to Authorization Page
+    final authorizationPage = _oauth.getResourceOwnerAuthorizationURI(
+        requestTokenResponse.credentials.token);
+        print('authorizationPage: $authorizationPage');
+    flutterWebviewPlugin.launch(authorizationPage);
+  }
+
+    Future<void> _twitterLogInFinish(
+      String oauthToken, String oauthVerifier) async {
+    // Step 3 - Request Access Token
+      print('_twitterLogInFinish');
+    final tokenCredentialsResponse = await _oauth.requestTokenCredentials(
+        Credentials(oauthToken, ''), oauthVerifier);
+
+    final result = TwitterAuthProvider.getCredential(
+      authToken: tokenCredentialsResponse.credentials.token,
+      authTokenSecret: tokenCredentialsResponse.credentials.tokenSecret,
+    );
+
+    final FirebaseUser user =
+        (await _auth.signInWithCredential(result)).user;
+        print('users: $user');
+
+    final FirebaseUser currentUser = await _auth.currentUser();
+      if (user != null) {
+        var _message = 'Successfully signed in with Twitter. ' + user.uid;
+
+        print(_message);
+        // flutterWebviewPlugin.dispose();
+        
+      } else {
+        var _message = 'Failed to sign in with Twitter. ';
+         print(_message);
+      }
+
+    print('auth result: $result');
+
+    //  Navigator.of(context).pushNamed('home');
+  }
 
 _signInTwitter(context) async {
   var twitterLogin = new TwitterLogin(
@@ -32,7 +127,29 @@ _signInTwitter(context) async {
     }
 }
 
-class _LoginState extends State<Login> {
+  // Example code of how to sign in with Twitter.
+  void _signInWithTwitter() async {
+    final AuthCredential credential = TwitterAuthProvider.getCredential(
+        authToken: 'O9AvyC4qDvCCdxn1LaypRVF8E',
+        authTokenSecret: '4qAEinQ6L3Wba25sZVllSEtb8vx6i1zuwIHnD3vT4MyDBgd0CI');
+        print(credential);
+    final FirebaseUser user =
+        (await _auth.signInWithCredential(credential)).user;
+    assert(user.email != null);
+    assert(user.displayName != null);
+    assert(!user.isAnonymous);
+    assert(await user.getIdToken() != null);
+
+    final FirebaseUser currentUser = await _auth.currentUser();
+    assert(user.uid == currentUser.uid);
+      if (user != null) {
+        var _message = 'Successfully signed in with Twitter. ' + user.uid;
+        print(_message);
+      } else {
+        var _message = 'Failed to sign in with Twitter. ';
+         print(_message);
+      }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +176,9 @@ class _LoginState extends State<Login> {
           height: 50.0,
           child: RaisedButton(
             onPressed: () {
-              _signInTwitter(context);
+              // _signInTwitter(context);
+              // _signInWithTwitter();
+              _twitterLogInStart();
             },
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
             padding: EdgeInsets.all(0.0),
