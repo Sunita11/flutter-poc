@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_twitter/flutter_twitter.dart';
-import 'twitter_login.dart';
+// import 'package:flutter_twitter/flutter_twitter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:oauth1/oauth1.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+// import 'package:twitter_login/twitter_login.dart' as T;
 // import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 
@@ -46,14 +46,16 @@ final ClientCredentials clientCredentials= ClientCredentials('O9AvyC4qDvCCdxn1La
       }
     });
 
+    flutterWebviewPlugin.close();
+
     
   }
 
-  /*   @override
+  @override
   void dispose() {
     flutterWebviewPlugin.dispose();
     super.dispose();
-  } */
+  }
 
     Future<void> _twitterLogInStart() async {
       print('_twitterLogInStart $_oauth');
@@ -95,37 +97,71 @@ final ClientCredentials clientCredentials= ClientCredentials('O9AvyC4qDvCCdxn1La
         var _message = 'Failed to sign in with Twitter. ';
          print(_message);
       }
-
+    flutterWebviewPlugin.close();
     print('auth result: $result');
 
-    //  Navigator.of(context).pushNamed('home');
+     Navigator.of(context).pushNamed('home');
   }
 
-_signInTwitter(context) async {
-  var twitterLogin = new TwitterLogin(
-    consumerKey: 'O9AvyC4qDvCCdxn1LaypRVF8E',
-    consumerSecret: '4qAEinQ6L3Wba25sZVllSEtb8vx6i1zuwIHnD3vT4MyDBgd0CI',
-  );
+  /* _signInTwitterNormal(context) async {
+    var twitterLogin = new TwitterLogin(
+      consumerKey: 'O9AvyC4qDvCCdxn1LaypRVF8E',
+      consumerSecret: '4qAEinQ6L3Wba25sZVllSEtb8vx6i1zuwIHnD3vT4MyDBgd0CI',
+    );
 
-  final TwitterLoginResult result = await twitterLogin.authorize();
+    final TwitterLoginResult result = await twitterLogin.authorize();
+    print('TwitterLoginResult $result');
+      switch (result.status) {
+        case TwitterLoginStatus.loggedIn:
+          print('login successfull');
+              final result2 = TwitterAuthProvider.getCredential(
+              authToken: result.session.token,
+              authTokenSecret: result.session.secret,
+            );
 
-    switch (result.status) {
-      case TwitterLoginStatus.loggedIn:
-        print('login successfull');
-        Navigator.of(context).pushNamed('home');
-        // _sendTokenAndSecretToServer(session.token, session.secret);
-        break;
-      case TwitterLoginStatus.cancelledByUser:
-        print('login cancelled');
-        // _showCancelMessage();
-        break;
-      case TwitterLoginStatus.error:
-        var msg = result.errorMessage;
-        print('error occurred: $msg');
-        // _showErrorMessage(result.error);
-        break;
-    }
-}
+            final FirebaseUser user =
+                (await _auth.signInWithCredential(result2)).user;
+                print('users: $user');
+          // Navigator.of(context).pushNamed('home');
+          // _sendTokenAndSecretToServer(session.token, session.secret);
+          break;
+        case TwitterLoginStatus.cancelledByUser:
+          print('login cancelled');
+          // _showCancelMessage();
+          break;
+        case TwitterLoginStatus.error:
+          var msg = result.errorMessage;
+          print('error occurred: $msg');
+          // _showErrorMessage(result.error);
+          break;
+      }
+  } */
+
+  /* _signInNewLogin() async {
+      final twitterLogin = T.TwitterLogin(
+      // Consumer API keys
+      apiKey: 'O9AvyC4qDvCCdxn1LaypRVF8E',
+      apiSecretKey: '4qAEinQ6L3Wba25sZVllSEtb8vx6i1zuwIHnD3vT4MyDBgd0CI',
+      // Callback URL for Twitter App
+      // Android is a deeplink
+      // iOS is a URLScheme
+      redirectURI: 'https://dummy-test-10de7.firebaseapp.com/__/auth/handler',
+      );
+      final authResult1 = await twitterLogin.login();
+      switch (authResult1.status) {
+      case T.TwitterLoginStatus.loggedIn:
+          // success
+          print('success');
+          break;
+      case T.TwitterLoginStatus.cancelledByUser:
+          // cancel
+           print('cancel');
+          break;
+      case T.TwitterLoginStatus.error:
+          // error
+          break;
+      }
+  } */
 
   // Example code of how to sign in with Twitter.
   void _signInWithTwitter() async {
@@ -176,9 +212,10 @@ _signInTwitter(context) async {
           height: 50.0,
           child: RaisedButton(
             onPressed: () {
-              // _signInTwitter(context);
+              // _signInNewLogin();
+              // _signInTwitterNormal(context);
               // _signInWithTwitter();
-              _twitterLogInStart();
+              // _twitterLogInStart();
             },
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
             padding: EdgeInsets.all(0.0),

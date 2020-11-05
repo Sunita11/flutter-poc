@@ -111,12 +111,10 @@ class _HomePageInternalState extends State<HomePageInternal> {
   @override
   Widget build(BuildContext context) {
 
-    return WillPopScope(
-      child: Scaffold(
+    return Scaffold(
         body: WrapperPage(
               key: ValueKey('MainFeed'),
         ),
-      )
-    );
+      );
   }
 }
