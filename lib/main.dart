@@ -1,49 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'feed-page.dart';
-import 'features/app_bloc.dart';
+import 'components/buttons/button.dart';
+import 'components/quiz/index.dart';
+import 'components/textControl/index.dart';
 
+void main() => runApp(MyApp());
 
-void main() => runApp(BlogApp());
-
-class BlogApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Select your language',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        fontFamily: 'Poppins',
-        primaryColor: Color.fromARGB(255, 27, 34, 39),
-        primaryColorDark: Color.fromARGB(255, 27, 34, 39),
-        scaffoldBackgroundColor: Color.fromARGB(255, 34, 36, 38),
-        primaryTextTheme: ThemeData.dark().primaryTextTheme.apply(
-          bodyColor: Color.fromARGB(255, 140, 162, 183),
-          displayColor: Color.fromARGB(255, 140, 162, 183),
-          fontFamily: 'Poppins',
-        ),
-        primaryColorBrightness: Brightness.dark,
-      ),
-      initialRoute: '/',
+      home: HomePage(),
       onGenerateRoute: (settings) {
         switch (settings.name) {
-          case '/':
-            return MaterialPageRoute(builder: (ctx) => BlocProvider<AppBloc>(
-              create: (ctx) => AppBloc(),
-              child: HomePage()
-            ));
+          case 'quiz':
+            return MaterialPageRoute(builder: (ctx) => QuizPage());
             break;
-          case 'home':
-            return MaterialPageRoute(builder: (ctx) => HomePage());
+          case 'assignment1':
+            return MaterialPageRoute(builder: (ctx) => AssignmentPage());
             break;
           default:
             throw Exception('route does not exists');
             break;
         }
       },
-//      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -54,66 +35,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isUserRecordChecked = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _appBloc = BlocProvider.of<AppBloc>(context);
-    // checkForMissingInfo();
-  }
-
-  AppBloc _appBloc;
-
-  checkForMissingInfo() async {
-      /*await tryCreateUserRecord (
-        context: context,
-      );
-      setState((){
-        isUserRecordChecked = true;
-      })*/
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppBloc, AppState>(
-      builder: (context, state) {
-        return isUserRecordChecked ?
-        HomePageInternal(title: 'HomePage')
-            : Scaffold(
-            body: Center(
-                child: Container(
-                    child: CircularProgressIndicator(),
-                    width: 40,
-                    height: 40
-                )
-            )
-        );
-      }
-    );
-  }
-}
-
-class HomePageInternal extends StatefulWidget {
-  HomePageInternal({Key key, this.title}): super(key: key);
-
-  final String title;
-
-  @override
-  _HomePageInternalState createState() => _HomePageInternalState();
-}
-
-class _HomePageInternalState extends State<HomePageInternal> {
-
-  @override
-  Widget build(BuildContext context) {
-
-    return WillPopScope(
-      child: Scaffold(
-        body: WrapperPage(
-              key: ValueKey('MainFeed'),
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Flutter'),
+          backgroundColor: Colors.grey[800],
         ),
-      )
-    );
+        body: Buttons());
   }
 }
